@@ -6,6 +6,7 @@
 <title>После работы — таймер до конца дня</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Russo+One&family=Unbounded:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vendor/fonts/fonts.css">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,7 +18,7 @@
 <section class="display" aria-label="Оставшееся время">
 <div id="hourglass" aria-hidden="true"></div>
 <button id="metric" class="metric" aria-label="Показать оставшееся время" aria-pressed="false">
-<div class="metric-track"><svg class="percent-svg" viewBox="0 0 1000 330" role="img" aria-label="Процент оставшегося дня"><defs><linearGradient id="ink"><stop stop-color="#dfff9a"/><stop offset="1" stop-color="#adf465"/></linearGradient></defs><text class="number-base" x="500" y="270" text-anchor="middle">99<tspan class="percent-sign">%</tspan></text><text id="percent-line" class="number-line" x="500" y="270" text-anchor="middle">99<tspan class="percent-sign">%</tspan></text><text id="percent-fill" class="number-fill" x="500" y="270" text-anchor="middle">99<tspan class="percent-sign">%</tspan></text></svg><div class="time-panel"><div class="time-label">ДО ТВОИХ ПЛАНОВ</div><div id="remaining">7<span>Ч</span>59<span>М</span></div></div></div>
+<div class="metric-track"><svg class="percent-svg" viewBox="0 0 1000 330" role="img" aria-label="Процент оставшегося дня"><defs><linearGradient id="ink"><stop stop-color="#dfff9a"/><stop offset="1" stop-color="#adf465"/></linearGradient></defs><text class="number-base" x="380" y="270" text-anchor="middle" textLength="720" lengthAdjust="spacingAndGlyphs">99<tspan class="percent-sign">%</tspan></text><text id="percent-line" class="number-line" x="380" y="270" text-anchor="middle" textLength="720" lengthAdjust="spacingAndGlyphs">99<tspan class="percent-sign">%</tspan></text><text id="percent-fill" class="number-fill" x="380" y="270" text-anchor="middle" textLength="720" lengthAdjust="spacingAndGlyphs">99<tspan class="percent-sign">%</tspan></text></svg><div class="time-panel"><div class="time-label">ДО ТВОИХ ПЛАНОВ</div><div id="remaining">7<span>Ч</span>59<span>М</span></div></div></div>
 </button>
 <div class="display-bottom"><span id="status"><i class="live-dot"></i> ДЕНЬ ПРОДОЛЖАЕТСЯ</span><button id="toggle" class="toggle">ПРОЦЕНТЫ <span>⇄</span> ВРЕМЯ</button><span class="scene-label">НЕ ТОРОПИ. ПРОЖИВАЙ.</span></div>
 </section>
