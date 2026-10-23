@@ -2,25 +2,33 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#080909"><meta name="description" content="Почувствуй течение рабочего дня. Неоновые песочные часы и таймер до свободы.">
-<title>После работы — таймер до конца дня</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Russo+One&family=Unbounded:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="vendor/fonts/fonts.css">
-<link rel="stylesheet" href="style.css">
+<meta name="theme-color" content="#10110e"><meta name="description" content="Another Percent Timer — рабочий день на экране ретротелевизора.">
+<title>Another Percent Timer</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='8' width='56' height='48' rx='12' fill='%23bd8c48'/%3E%3Crect x='11' y='19' width='42' height='30' rx='10' fill='%232b3c2b'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-size='25' fill='%23d4ebaa'%3E%25%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="vendor/fonts/fonts.css"><link rel="stylesheet" href="style.css">
+<script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
 </head>
-<body>
-<main class="sign">
-<button id="edit" class="settings" aria-label="Настроить рабочий день" title="Настроить рабочий день">12:00 — 20:00 <span>↗</span></button>
-<div class="title-row"><span class="star" aria-hidden="true">✦</span><h1 id="neon-title">ДО КОНЦА ДНЯ<span>осталось</span></h1><span class="star" aria-hidden="true">✦</span></div>
-<section class="display" aria-label="Оставшееся время">
-<button id="metric" class="metric" aria-label="Показать оставшееся время" aria-pressed="false">
-<div class="metric-track"><svg class="percent-svg" viewBox="0 30 1000 290" preserveAspectRatio="none" role="img" aria-label="Процент оставшегося дня"><text class="number-base" x="500" y="300" text-anchor="middle" textLength="950" lengthAdjust="spacingAndGlyphs">99<tspan class="percent-sign">%</tspan></text><text id="percent-line" class="number-line" x="500" y="300" text-anchor="middle" textLength="950" lengthAdjust="spacingAndGlyphs">99<tspan class="percent-sign">%</tspan></text><text id="percent-fill" class="number-fill" x="500" y="300" text-anchor="middle" textLength="950" lengthAdjust="spacingAndGlyphs">99<tspan class="percent-sign">%</tspan></text></svg><div class="time-panel"><div id="remaining">7<span>Ч</span>59<span>М</span></div></div></div>
-</button>
-</section>
-<div id="hourglass" aria-hidden="true"></div>
-<button id="toggle" class="toggle" aria-label="Переключить проценты и время">% <span>↔</span> Ч:М</button>
+<body class="setting-up">
+<main id="stage" aria-label="Трёхмерный ретротелевизор">
+<h1 id="accessible-title" class="sr-only">ANOTHER PERCENT TIMER</h1>
+<div id="webgl" aria-hidden="true"></div><div id="interface"></div>
+<div id="screen" class="screen">
+<div class="screen-content">
+<section id="setup" aria-label="Настройка рабочего дня"><form id="schedule-form">
+<p class="channel">НАСТРОЙКА КАНАЛА</p><h2>Твой рабочий день</h2>
+<div class="time-inputs"><label>С<input name="start" id="start" type="time" value="12:00" required></label><span>—</span><label>ДО<input name="end" id="end" type="time" value="20:00" required></label></div>
+<p id="form-error" role="alert"></p><button class="save" type="submit">НАЧАТЬ <span>▶</span></button>
+<button type="button" id="cancel" hidden>ВЕРНУТЬСЯ</button>
+</form></section>
+<section id="countdown" hidden aria-label="До конца дня осталось">
+<div class="screen-top"><span>PLAY <span class="play">▶</span></span><span id="screen-clock">12:00</span></div>
+<button id="metric" class="metric" aria-label="Показать оставшееся время" aria-pressed="false"><div class="metric-track">
+<svg class="percent-svg" viewBox="0 0 800 350" role="img" aria-label="Процент оставшегося дня"><text class="number-base" x="400" y="290" text-anchor="middle">99<tspan class="percent-sign">%</tspan></text><text id="percent-line" class="number-line" x="400" y="290" text-anchor="middle">99<tspan class="percent-sign">%</tspan></text><text id="percent-fill" class="number-fill" x="400" y="290" text-anchor="middle">99<tspan class="percent-sign">%</tspan></text></svg>
+<div class="time-panel"><div id="remaining">7<span>Ч</span>59<span>М</span></div></div></div></button>
+<div class="screen-bottom"><button id="edit" aria-label="Настроить рабочий день">12:00 — 20:00</button><button id="toggle" aria-label="Переключить проценты и время">% / Ч:М</button></div>
+</section></div>
+<div class="scanlines" aria-hidden="true"></div><div class="tracking" aria-hidden="true"></div><div class="noise" aria-hidden="true"></div><div class="glass" aria-hidden="true"></div>
+</div>
 </main>
-<dialog id="setup"><form id="schedule-form"><div class="dialog-top"><span class="eyebrow">НАСТРОЙ СВОЙ РИТМ</span><button type="button" id="close-dialog" aria-label="Закрыть">✕</button></div><h2>Когда<br><span>гасить свет?</span></h2><p>Начало и конец твоего рабочего дня.</p><div class="time-inputs"><label>НАЧАЛО ДНЯ<input name="start" id="start" type="time" value="12:00" required></label><span>→</span><label>КОНЕЦ ДНЯ<input name="end" id="end" type="time" value="20:00" required></label></div><p id="form-error" role="alert"></p><button class="save" type="submit">Начать отсчёт <span>↗</span></button><small>Сохраним только в этом браузере. Никаких аккаунтов.</small></form></dialog>
 <script type="module" src="app.js"></script>
 </body></html>
