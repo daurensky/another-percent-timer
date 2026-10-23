@@ -23,16 +23,9 @@ function animatePercent(value) {
 function update() {
   const now = new Date(), state = calculateDay(schedule.start, schedule.end, now);
   sandRatio = state.ratio;
-  $('#clock').textContent = now.toLocaleTimeString('ru-RU', { hour12: false });
-  $('#day-range').textContent = `${schedule.start} — ${schedule.end} / ТВОЙ РАБОЧИЙ ДЕНЬ`;
-  $('#start-label').innerHTML = `${schedule.start} <em>НАЧАЛО</em>`;
-  $('#end-label').innerHTML = `<em>СВОБОДА</em> ${schedule.end}`;
+  $('#edit').innerHTML = `${schedule.start} — ${schedule.end} <span>↗</span>`;
   $('#remaining').innerHTML = `${state.hours}<span>Ч</span>${String(state.minutes).padStart(2, '0')}<span>М</span>`;
   $('#remaining').setAttribute('aria-label', `${state.hours} часов ${state.minutes} минут`);
-  $('#progress').style.width = `${(1 - state.ratio) * 100}%`;
-  $('#progress-dot').style.left = `${(1 - state.ratio) * 100}%`;
-  $('#elapsed-label').textContent = state.done ? 'ТЕПЕРЬ ВРЕМЯ ДЛЯ СЕБЯ' : state.before ? 'ВСЁ НАЧНЁТСЯ В СВОЁ ВРЕМЯ' : `ПРОЙДЕНО ${Math.round((1 - state.ratio) * 100)}% ДНЯ`;
-  $('#status').innerHTML = `<i class="live-dot"></i> ${state.done ? 'ДЕНЬ ЗАВЕРШЁН. ТЫ СВОБОДЕН.' : state.before ? 'ДЕНЬ ЕЩЁ НЕ НАЧАЛСЯ' : state.ratio <= .1 ? 'СВОБОДА УЖЕ БЛИЗКО' : 'ДЕНЬ ПРОДОЛЖАЕТСЯ'}`;
   document.body.classList.toggle('ending', !state.before && (state.ratio <= .1));
   if (previousPercent !== state.percent) { animatePercent(state.percent); previousPercent = state.percent; }
 }
@@ -66,13 +59,13 @@ async function createHourglass() {
   const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); renderer.setClearColor(0, 0);
   host.appendChild(renderer.domElement);
-  scene.add(new THREE.AmbientLight(0xc2e9a7, 2));
-  const light = new THREE.DirectionalLight(0xdcffc2, 5); light.position.set(3, 4, 4); scene.add(light);
-  const rim = new THREE.PointLight(0xb8ff6d, 15); rim.position.set(-2, 0, 2); scene.add(rim);
+  scene.add(new THREE.AmbientLight(0xffb07a, 2));
+  const light = new THREE.DirectionalLight(0xffd3ad, 5); light.position.set(3, 4, 4); scene.add(light);
+  const rim = new THREE.PointLight(0xff633b, 15); rim.position.set(-2, 0, 2); scene.add(rim);
   const model = new THREE.Group(); scene.add(model); model.rotation.set(.12, -.3, -.12);
-  const metal = new THREE.MeshStandardMaterial({ color: 0x778b5c, metalness: .85, roughness: .25 });
-  const sand = new THREE.MeshStandardMaterial({ color: 0xc5f98b, emissive: 0x617d29, emissiveIntensity: .3, roughness: .8 });
-  const glass = new THREE.MeshPhysicalMaterial({ color: 0xd7f5c2, metalness: 0, roughness: .12, transparent: true, opacity: .14, side: THREE.DoubleSide, depthWrite: false });
+  const metal = new THREE.MeshStandardMaterial({ color: 0x9c5537, metalness: .85, roughness: .25 });
+  const sand = new THREE.MeshStandardMaterial({ color: 0xffad65, emissive: 0x9b3815, emissiveIntensity: .3, roughness: .8 });
+  const glass = new THREE.MeshPhysicalMaterial({ color: 0xffd8c2, metalness: 0, roughness: .12, transparent: true, opacity: .14, side: THREE.DoubleSide, depthWrite: false });
   const points = [];
   for (let i = 0; i <= 60; i++) {
     const y = -1.36 + i / 60 * 2.72;
@@ -81,7 +74,7 @@ async function createHourglass() {
   }
   const shell = new THREE.Mesh(new THREE.LatheGeometry(points, 64), glass); shell.renderOrder = 3; model.add(shell);
   // Fine contour lines make the glass silhouette readable against black.
-  const outlineMaterial = new THREE.LineBasicMaterial({ color: 0xa8c78e, transparent: true, opacity: .35 });
+  const outlineMaterial = new THREE.LineBasicMaterial({ color: 0xffad7b, transparent: true, opacity: .35 });
   for (const angle of [0, Math.PI]) {
     const contour = points.map(p => new THREE.Vector3(Math.cos(angle) * p.x, p.y, Math.sin(angle) * p.x));
     model.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(contour), outlineMaterial));
@@ -99,7 +92,7 @@ async function createHourglass() {
   const lower = new THREE.Mesh(new THREE.ConeGeometry(.7, .8, 48), sand); model.add(lower);
   const count = 100, positions = new Float32Array(count * 3);
   const particles = new THREE.BufferGeometry(); particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  const stream = new THREE.Points(particles, new THREE.PointsMaterial({ color: 0xdbffa3, size: .018, transparent: true, opacity: .8 })); model.add(stream);
+  const stream = new THREE.Points(particles, new THREE.PointsMaterial({ color: 0xffdda3, size: .018, transparent: true, opacity: .8 })); model.add(stream);
   const resize = () => { const w = host.clientWidth, h = host.clientHeight; renderer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix(); };
   new ResizeObserver(resize).observe(host); resize();
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;

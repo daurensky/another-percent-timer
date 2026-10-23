@@ -10,21 +10,17 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="grain" aria-hidden="true"></div>
-<header><a class="brand" href="./"><span class="brand-mark">⌛</span> ПОСЛЕ РАБОТЫ<span class="brand-dot">®</span></a><div class="header-right"><span class="live-dot"></span><span id="clock">00:00:00</span><button id="edit" class="text-button">Мой день <span>↗</span></button></div></header>
-<main>
-<section class="intro"><div class="eyebrow"><span class="tiny-line"></span> ВРЕМЯ НА ТВОЕЙ СТОРОНЕ</div><div class="day-range" id="day-range">ТВОЙ РИТМ. ТВОЙ ДЕНЬ.</div></section>
-<div class="title-row"><h1 id="neon-title">ДО КОНЦА ДНЯ<span>ОСТАЛОСЬ</span></h1><div class="annotation">Каждая минута —<br>на шаг ближе к свободе.<span>↓</span></div></div>
+<main class="sign">
+<button id="edit" class="settings" aria-label="Настроить рабочий день" title="Настроить рабочий день">12:00 — 20:00 <span>↗</span></button>
+<div class="title-row"><span class="star" aria-hidden="true">✦</span><h1 id="neon-title">ДО КОНЦА ДНЯ<span>осталось</span></h1><span class="star" aria-hidden="true">✦</span></div>
 <section class="display" aria-label="Оставшееся время">
-<div id="hourglass" aria-hidden="true"></div>
 <button id="metric" class="metric" aria-label="Показать оставшееся время" aria-pressed="false">
-<div class="metric-track"><svg class="percent-svg" viewBox="0 0 1000 330" role="img" aria-label="Процент оставшегося дня"><defs><linearGradient id="ink"><stop stop-color="#dfff9a"/><stop offset="1" stop-color="#adf465"/></linearGradient></defs><text class="number-base" x="380" y="270" text-anchor="middle" textLength="720" lengthAdjust="spacingAndGlyphs">99<tspan class="percent-sign">%</tspan></text><text id="percent-line" class="number-line" x="380" y="270" text-anchor="middle" textLength="720" lengthAdjust="spacingAndGlyphs">99<tspan class="percent-sign">%</tspan></text><text id="percent-fill" class="number-fill" x="380" y="270" text-anchor="middle" textLength="720" lengthAdjust="spacingAndGlyphs">99<tspan class="percent-sign">%</tspan></text></svg><div class="time-panel"><div class="time-label">ДО ТВОИХ ПЛАНОВ</div><div id="remaining">7<span>Ч</span>59<span>М</span></div></div></div>
+<div class="metric-track"><svg class="percent-svg" viewBox="0 30 1000 290" preserveAspectRatio="none" role="img" aria-label="Процент оставшегося дня"><text class="number-base" x="500" y="300" text-anchor="middle" textLength="950" lengthAdjust="spacingAndGlyphs">99<tspan class="percent-sign">%</tspan></text><text id="percent-line" class="number-line" x="500" y="300" text-anchor="middle" textLength="950" lengthAdjust="spacingAndGlyphs">99<tspan class="percent-sign">%</tspan></text><text id="percent-fill" class="number-fill" x="500" y="300" text-anchor="middle" textLength="950" lengthAdjust="spacingAndGlyphs">99<tspan class="percent-sign">%</tspan></text></svg><div class="time-panel"><div id="remaining">7<span>Ч</span>59<span>М</span></div></div></div>
 </button>
-<div class="display-bottom"><span id="status"><i class="live-dot"></i> ДЕНЬ ПРОДОЛЖАЕТСЯ</span><button id="toggle" class="toggle">ПРОЦЕНТЫ <span>⇄</span> ВРЕМЯ</button><span class="scene-label">НЕ ТОРОПИ. ПРОЖИВАЙ.</span></div>
 </section>
-<section class="timeline"><div class="timeline-info"><span id="start-label">12:00 <em>НАЧАЛО</em></span><span id="elapsed-label">У ВСЕГО ЕСТЬ СВОЁ ВРЕМЯ</span><span id="end-label"><em>СВОБОДА</em> 20:00</span></div><div class="progress-track"><div id="progress"></div><span id="progress-dot"></span></div></section>
-<footer><span>РАБОТА ЗАКОНЧИТСЯ. ВЕЧЕР НАЧНЁТСЯ.</span><span>СДЕЛАЙ ВДОХ <span class="asterisk">✳</span></span></footer>
+<div id="hourglass" aria-hidden="true"></div>
+<button id="toggle" class="toggle" aria-label="Переключить проценты и время">% <span>↔</span> Ч:М</button>
 </main>
-<dialog id="setup"><form id="schedule-form"><div class="dialog-top"><span class="eyebrow">НАСТРОЙ СВОЙ РИТМ</span><button type="button" id="close-dialog" aria-label="Закрыть">✕</button></div><h2>У дня есть<br><span>свои границы.</span></h2><p>Обозначь рабочее время.<br>Мы посчитаем минуты до твоих планов.</p><div class="time-inputs"><label>НАЧАЛО ДНЯ<input name="start" id="start" type="time" value="12:00" required></label><span>→</span><label>КОНЕЦ ДНЯ<input name="end" id="end" type="time" value="20:00" required></label></div><p id="form-error" role="alert"></p><button class="save" type="submit">Начать отсчёт <span>↗</span></button><small>Сохраним только в этом браузере. Никаких аккаунтов.</small></form></dialog>
+<dialog id="setup"><form id="schedule-form"><div class="dialog-top"><span class="eyebrow">НАСТРОЙ СВОЙ РИТМ</span><button type="button" id="close-dialog" aria-label="Закрыть">✕</button></div><h2>Когда<br><span>гасить свет?</span></h2><p>Начало и конец твоего рабочего дня.</p><div class="time-inputs"><label>НАЧАЛО ДНЯ<input name="start" id="start" type="time" value="12:00" required></label><span>→</span><label>КОНЕЦ ДНЯ<input name="end" id="end" type="time" value="20:00" required></label></div><p id="form-error" role="alert"></p><button class="save" type="submit">Начать отсчёт <span>↗</span></button><small>Сохраним только в этом браузере. Никаких аккаунтов.</small></form></dialog>
 <script type="module" src="app.js"></script>
 </body></html>
