@@ -9,9 +9,12 @@
 <script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
 </head>
 <body class="setting-up">
-<main id="stage" aria-label="Трёхмерный ретротелевизор">
+<main id="stage" aria-label="Ретротелевизор с таймером">
+<div id="background" class="background" aria-hidden="true"><div class="ambient ambient-red"></div><div class="ambient ambient-teal"></div><div class="wall-texture"></div></div>
+<header class="neon-sign"><span class="spark spark-left" aria-hidden="true">✦</span><div id="neon-title"><span>ANOTHER</span><em>PERCENT TIMER</em></div><span class="spark spark-right" aria-hidden="true">✦</span></header>
+<div id="television" class="television">
 <h1 id="accessible-title" class="sr-only">ANOTHER PERCENT TIMER</h1>
-<div id="webgl" aria-hidden="true"></div><div id="interface"></div>
+<div id="webgl" aria-hidden="true"></div><img id="tv-image" class="tv-image" src="assets/retro-tv.png" alt="" aria-hidden="true">
 <div id="screen" class="screen">
 <div class="screen-content">
 <section id="setup" aria-label="Настройка рабочего дня"><form id="schedule-form">
@@ -28,6 +31,7 @@
 <div class="screen-bottom"><button id="edit" aria-label="Настроить рабочий день">12:00 — 20:00</button><button id="toggle" aria-label="Переключить проценты и время">% / Ч:М</button></div>
 </section></div>
 <div class="scanlines" aria-hidden="true"></div><div class="tracking" aria-hidden="true"></div><div class="noise" aria-hidden="true"></div><div class="glass" aria-hidden="true"></div>
+</div>
 </div>
 </main>
 <script type="module" src="app.js"></script>

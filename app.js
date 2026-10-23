@@ -25,6 +25,7 @@ function update() {
 function setSetup(open) {
  $('#setup').hidden=!open;$('#countdown').hidden=open;document.body.classList.toggle('setting-up',open);
  $('#accessible-title').textContent=open?'ANOTHER PERCENT TIMER':'ДО КОНЦА ДНЯ ОСТАЛОСЬ';
+ $('#neon-title').innerHTML=open?'<span>ANOTHER</span><em>PERCENT TIMER</em>':'<span>ДО КОНЦА ДНЯ</span><em>осталось</em>';
  document.dispatchEvent(new CustomEvent('timer-mode',{detail:{setup:open}}));
 }
 function openSettings(){ $('#start').value=schedule.start;$('#end').value=schedule.end;$('#form-error').textContent='';$('#cancel').hidden=!saved;setSetup(true); }
@@ -40,9 +41,25 @@ $('#schedule-form').addEventListener('submit',event=>{
 function toggleMetric(){const showing=$('#countdown').classList.toggle('show-time');$('#metric').setAttribute('aria-pressed',String(showing));$('#metric').setAttribute('aria-label',showing?'Показать проценты':'Показать оставшееся время');}
 $('#metric').addEventListener('click',toggleMetric);$('#toggle').addEventListener('click',toggleMetric);
 update();setInterval(update,1000);if(saved)setSetup(false);else openSettings();
+// Only the distant background follows the pointer. The television stays fixed.
+const background=$('#background');
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+ addEventListener('pointermove',event=>{
+  if(event.pointerType==='touch')return;
+  const x=(event.clientX/innerWidth-.5)*6,y=(event.clientY/innerHeight-.5)*4;
+  background.style.transform=`translate3d(${x}px,${y}px,0)`;
+ },{passive:true});
+ document.documentElement.addEventListener('pointerleave',()=>{background.style.transform='translate3d(0,0,0)';});
+}
+// Match the live interface to the glass in the product render at every size.
+function fitScreen(){
+ const size=$('#television').clientWidth;
+ $('#screen').style.left=`${size*.136}px`;
+ $('#screen').style.top=`${size*.258}px`;
+ $('#screen').style.transform=`scale(${size*.61/800})`;
+}
+new ResizeObserver(fitScreen).observe($('#television'));fitScreen();
 import('./television.js').then(module=>module.createTelevision()).catch(error=>{
- console.warn('WebGL scene unavailable:',error.message);
- document.body.classList.add('fallback');$('#stage').append($('#screen'));
- const fit=()=>document.documentElement.style.setProperty('--fallback-scale',String(Math.min((innerWidth-50)/800,(innerHeight*.65)/600)));
- fit();addEventListener('resize',fit);
+ console.warn('WebGL unavailable; using the same television render:',error.message);
+ document.body.classList.add('fallback');$('#stage').dataset.ready='true';
 });
